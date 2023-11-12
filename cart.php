@@ -3,6 +3,7 @@ session_start();
 include('includes/header.php');
 include('functions/userFunction.php');
 include('authenticate.php');
+$items = getCartItems();
 ?>
 
 <div class="py-3 bg-info">
@@ -10,8 +11,12 @@ include('authenticate.php');
         <h6 class="text-white fw-bold fs-5"><a class="text-white" href="index.php"> Home </a>/ <span style="color: #aff;">Cart</span></h6>
     </div>
 </div>
+
 <div class="py-5">
-    <div class="container">
+    <div class="container" id="cartItems">
+    <?php
+        if (mysqli_num_rows($items) > 0):
+    ?>
         <div class="card shadow">
         <div class="row">
             <div class="col-md-12">
@@ -32,8 +37,8 @@ include('authenticate.php');
                         </div>
                 </div>
                 </div>
-                <div class="card-body" id="cartItems">
-                <?php $items = getCartItems();
+                <div class="card-body">
+                <?php 
                 foreach($items as $citem)
                 {
                     ?>
@@ -66,10 +71,23 @@ include('authenticate.php');
                 }
                 ?>
             </div>
+            
             </div>
         </div>
     </div>
+    <div class="float-end mb-5">
+                <a href="checkout.php" class="btn btn-outline-primary mt-3">proceed to checkout</a>
+            </div>
     </div>
+    <?php
+    else:
+    ?>
+    <div class="card card-body text-center shadow">
+        <h4 class="py-3">Your Cart Is Empty</h4>
+    </div>
+    <?php 
+    endif 
+    ?>
 </div>
 <?php
 include('includes/footer.php');
